@@ -1,0 +1,11 @@
+package com.accenture;
+
+import java.nio.file.FileSystems;
+import java.nio.file.Path;
+
+public class Test 
+{
+	public static void main(String[] args) {
+		Path path = FileSystems.getDefault().getPath("");
+	}
+}

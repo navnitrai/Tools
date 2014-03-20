@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" ".//hibernate-mapping-3.0.dtd">
+<hibernate-mapping> 
+    <class name="in.gov.uidai.srdh.portal.vo.AuditSearch" table="audit_webservice_search">
+        <id name="transactionId" column="transaction_id">
+            <generator class="increment"></generator>
+        </id>
+        <property name="ipAddress" column="ip_address"/>
+        <property name="requestXml" column="request_xml"/>
+        <property name="responseStatus" column="response_status"/>
+        <property name="failureCode" column="failure_code"/>
+        <property name="requestDate" column="request_date"/>
+        <property name="responseDate" column="response_date"/>
+    </class>
+</hibernate-mapping> 

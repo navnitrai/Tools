@@ -1,0 +1,117 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        ".//hibernate-mapping-3.0.dtd">
+<!-- Generated Feb 22, 2012 2:54:36 PM by Hibernate Tools 3.1.0.beta4 -->
+<hibernate-mapping>
+    <class name="in.gov.uidai.srdh.portal.vo.Enrollmentphoto" table="enrollment" >
+        <id name="uid" type="string">
+            <column name="uniqueid" />
+            <generator class="assigned" />
+        </id>
+        <property name="eid" type="string" >
+            <column name="eid"  />
+        </property>
+
+        <property name="eidDate" type="date" >
+            <column name="eid_date" length="10" />
+        </property>
+
+       <!--  <property name="enrolmentTypeDesc" type="string" >
+            <column name="enrolment_type_desc" length="100" />
+        </property> -->
+
+       <!--  <property name="lastActionedDate" type="date" >
+            <column name="last_actioned_date" length="10"  />
+        </property>
+ -->
+        <property name="name" type="string" >
+            <column name="name" length="100"  />
+        </property>
+        <property name="nameLocal" type="string" >
+            <column name="name_local" length="100" />
+        </property>
+        <property name="dob" type="date" >
+            <column name="dob" length="10" />
+        </property>
+        <property name="dobYear" type="string" >
+            <column name="dob_year" length="4" />
+        </property>
+        <property name="gender" type="string" >
+            <column name="gender" length="1" />
+        </property>
+        <property name="addrCareof" type="string" >
+            <column name="addr_careof" length="100" />
+        </property>
+        <property name="addrCareofLocal" type="string" >
+            <column name="addr_careof_local" length="100" />
+        </property>
+        <property name="addrBuilding" type="string" >
+            <column name="addr_building" length="60" />
+        </property>
+        <property name="addrBuildingLocal" type="string" >
+            <column name="addr_building_local" length="100" />
+        </property>
+        <property name="addrStreet" type="string" >
+            <column name="addr_street" length="60" />
+        </property>
+        <property name="addrStreetLocal" type="string" >
+            <column name="addr_street_local" length="100" />
+        </property>
+        <property name="addrLandmark" type="string" >
+            <column name="addr_landmark" length="60" />
+        </property>
+        <property name="addrLandmarkLocal" type="string" >
+            <column name="addr_landmark_local" length="100" />
+        </property>
+        <property name="addrLocality" type="string" >
+            <column name="addr_locality" length="60" />
+        </property>
+        <property name="addrLocalityLocal" type="string" >
+            <column name="addr_locality_local" length="100" />
+        </property>
+        <property name="addrVtcName" type="string" >
+            <column name="addr_vtc_name" length="60"  />
+        </property>
+        <property name="addrVtcNameLocal" type="string" >
+            <column name="addr_vtc_name_local" length="100"  />
+        </property>
+        <property name="addrPoName" type="string" >
+            <column name="addr_po_name" length="100" />
+        </property>
+        <property name="addrPoNameLocal" type="string" >
+            <column name="addr_po_name_local" length="100" />
+        </property>
+        <property name="addrDistrictName" type="string" >
+            <column name="addr_district_name" length="60"  />
+        </property>
+        <property name="addrDistrictNameLocal" type="string" >
+            <column name="addr_district_name_local" length="100" />
+        </property>
+        <property name="addrStateName" type="string" >
+            <column name="addr_state_name" length="60"  />
+        </property>
+        <property name="addrStateNameLocal" type="string" >
+            <column name="addr_state_name_local" length="100" />
+        </property>
+        <property name="addrPincode" type="string" >
+            <column name="addr_pincode" length="6" />
+        </property>
+        <property name="mobile" type="string" >
+            <column name="mobile" length="18" />
+        </property>
+        <property name="email" type="string" >
+            <column name="email" length="254" />
+        </property>
+        
+         <property name="enrollmentnumber" type="string" >
+            <column name="enrolment_number" length="14" />
+        </property>
+        <!-- <property name="informationSharingConsent" type="string" >
+            <column name="information_sharing_consent" length="1" />
+        </property> -->
+
+        <one-to-one name="enrolmentdetails" class="in.gov.uidai.srdh.portal.vo.EnrollmentDetails"></one-to-one>
+
+    </class>
+</hibernate-mapping>

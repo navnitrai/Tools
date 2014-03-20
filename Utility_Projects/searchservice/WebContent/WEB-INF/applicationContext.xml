@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jaxrs="http://cxf.apache.org/jaxrs"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="
+http://www.springframework.org/schema/beans
+http://www.springframework.org/schema/beans/spring-beans.xsd
+http://cxf.apache.org/jaxrs
+http://cxf.apache.org/schemas/jaxrs.xsd 
+http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+
+	<!-- do not use import statements if CXFServlet init parameters link to 
+		this beans.xml -->
+
+	<import resource="classpath:META-INF/cxf/cxf.xml" />
+	<import resource="classpath:META-INF/cxf/cxf-servlet.xml" />
+
+	<jaxrs:server id="srdhSearchService" address="/">
+		<jaxrs:serviceBeans>
+			<ref bean="searchServiceInterface" />
+		</jaxrs:serviceBeans>
+	</jaxrs:server>
+	<!-- 
+	<bean id="placeholderConfig"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<value>classpath:databaseResources.properties</value>
+			</list>
+		</property>
+	</bean>
+	 -->
+	<bean id="propertyConfigurer"
+		class="org.jasypt.spring3.properties.EncryptablePropertyPlaceholderConfigurer">
+		<constructor-arg ref="configurationEncryptor" />
+		<property name="locations">
+			<list>
+				<value>classpath:databaseResources.properties</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="commonDataSource" class="org.apache.commons.dbcp.BasicDataSource">
+		<property name="driverClassName" value="${commonDataSourceDriver}" />
+		<property name="url" value="${commonDataSourceUrl}" />
+		<property name="username" value="${commonDataSourceUsername}" />
+		<property name="password" value="${commonDataSourcePassword}" />
+		<property name="initialSize" value="2"/>
+		<property name="maxActive" value="400"/>
+		<property name="maxIdle" value="300"/>
+		<property name="minIdle" value="10"/>
+		<property name="maxWait" value="10000"/>
+		<property name="minEvictableIdleTimeMillis" value="10000"/>
+	</bean>
+
+	<bean id="enrollmentDataSource1" class="org.apache.commons.dbcp.BasicDataSource">
+		<property name="driverClassName" value="${enrollmentDataSourceDriver1}" />
+		<property name="url" value="${enrollmentDataSourceUrl1}" />
+		<property name="username" value="${enrollmentDataSourceUsername1}" />
+		<property name="password" value="${enrollmentDataSourcePassword1}" />
+		<property name="initialSize" value="2"/>
+		<property name="maxActive" value="400"/>
+		<property name="maxIdle" value="300"/>
+		<property name="minIdle" value="10"/>
+		<property name="maxWait" value="10000"/>
+		<property name="minEvictableIdleTimeMillis" value="10000"/>
+	</bean>
+	<bean id="enrollmentDataSource2" class="org.apache.commons.dbcp.BasicDataSource">
+		<property name="driverClassName" value="${enrollmentDataSourceDriver2}" />
+		<property name="url" value="${enrollmentDataSourceUrl2}" />
+		<property name="username" value="${enrollmentDataSourceUsername2}" />
+		<property name="password" value="${enrollmentDataSourcePassword2}" />
+		<property name="initialSize" value="2"/>
+		<property name="maxActive" value="400"/>
+		<property name="maxIdle" value="300"/>
+		<property name="minIdle" value="10"/>
+		<property name="maxWait" value="10000"/>
+		<property name="minEvictableIdleTimeMillis" value="10000"/>
+	</bean>
+	
+	<!-- <bean id="commonDataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"
+		destroy-method="close" lazy-init="true">
+		<property name="driverClass" value="${commonDataSourceDriver}" />
+		<property name="jdbcUrl" value="${commonDataSourceUrl}" />
+		<property name="user" value="${commonDataSourceUsername}" />
+		<property name="password" value="${commonDataSourcePassword}" />
+		<property name="minPoolSize" value="1" />
+		<property name="maxPoolSize" value="100" />
+		<property name="maxIdleTime" value="3000" />
+		<property name="idleConnectionTestPeriod" value="1000" />
+		<property name="acquireIncrement" value="3" />
+	</bean>
+
+	<bean id="enrollmentDataSource1" class="com.mchange.v2.c3p0.ComboPooledDataSource"
+		destroy-method="close" lazy-init="true">
+		<property name="driverClass" value="${enrollmentDataSourceDriver1}" />
+		<property name="jdbcUrl" value="${enrollmentDataSourceUrl1}" />
+		<property name="user" value="${enrollmentDataSourceUsername1}" />
+		<property name="password" value="${enrollmentDataSourcePassword1}" />
+		<property name="minPoolSize" value="1" />
+		<property name="maxPoolSize" value="100" />
+		<property name="maxIdleTime" value="3000" />
+		<property name="idleConnectionTestPeriod" value="1000" />
+		<property name="acquireIncrement" value="3" />
+	</bean>
+ 
+	<bean id="enrollmentDataSource2" class="com.mchange.v2.c3p0.ComboPooledDataSource"
+		destroy-method="close" lazy-init="true">
+		<property name="driverClass" value="${enrollmentDataSourceDriver2}" />
+		<property name="jdbcUrl" value="${enrollmentDataSourceUrl2}" />
+		<property name="user" value="${enrollmentDataSourceUsername2}" />
+		<property name="password" value="${enrollmentDataSourcePassword2}" />
+		<property name="minPoolSize" value="1" />
+		<property name="maxPoolSize" value="100" />
+		<property name="maxIdleTime" value="3000" />
+		<property name="idleConnectionTestPeriod" value="1000" />
+		<property name="acquireIncrement" value="3" />
+	</bean> -->
+
+	<bean id="commonSessionFactory"
+		class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+		<property name="dataSource" ref="commonDataSource" />
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">${hibernate.dialect}</prop>
+				<prop key="hibernate.show_sql">${hibernate.show_sql}</prop>
+				<prop key="current_session_context_class">org.hibernate.context.ManagedSessionContext</prop>
+				<!-- <prop key="cache.provider_class">org.hibernate.cache.EhCacheProvider</prop> -->
+				<prop key="hibernate.connection.useUnicode">true</prop>
+				<prop key="hibernate.connection.characterEncoding">UTF-8</prop>
+				<prop key="hibernate.connection.charSet">UTF-8</prop>
+				<prop key="hibernate.default_schema">${hibernate.defaultSchema.common}</prop>
+				<!-- <prop key="hibernate.cache.use_query_cache">true</prop> 
+				<prop key="hibernate.max_fetch_depth">4</prop> 
+				<prop key="hibernate.cache.use_second_level_cache">true</prop> 
+				<prop key="hibernate.cache.use_query_cache">true</prop> 
+				<prop key="hibernate.cache.region.factory_class">net.sf.ehcache.hibernate.EhCacheRegionFactory</prop>
+				<prop key="hibernate.cache.provider_configuration_file_resource_path">/ehcache.xml</prop>  -->
+			</props>
+
+		</property>
+		<property name="mappingResources">
+			<list>
+				<value>auditWebServiceSearch.hbm.xml</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="enrollmentSessionFactory1"
+		class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+		<property name="dataSource" ref="enrollmentDataSource1" />
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">${hibernate.dialect}</prop>
+				<prop key="hibernate.show_sql">${hibernate.show_sql}</prop>
+				<prop key="current_session_context_class">org.hibernate.context.ManagedSessionContext</prop>
+				<!-- <prop key="cache.provider_class">org.hibernate.cache.EhCacheProvider</prop> -->
+				<prop key="hibernate.connection.useUnicode">true</prop>
+				<prop key="hibernate.connection.characterEncoding">UTF-8</prop>
+				<prop key="hibernate.connection.charSet">UTF-8</prop>
+				<prop key="hibernate.default_schema">${hibernate.defaultSchema.enrollment1}</prop>
+				<!-- <prop key="hibernate.cache.use_query_cache">true</prop> 
+				<prop key="hibernate.max_fetch_depth">4</prop> 
+				<prop key="hibernate.cache.use_second_level_cache">true</prop> 
+				<prop key="hibernate.cache.use_query_cache">true</prop> 
+				<prop key="hibernate.cache.region.factory_class">net.sf.ehcache.hibernate.EhCacheRegionFactory</prop>
+				<prop key="hibernate.cache.provider_configuration_file_resource_path">/ehcache.xml</prop>  -->
+			</props>
+		</property>
+		<property name="mappingResources">
+			<list>
+				<value>enrollment.hbm.xml</value>
+				<value>enrollmentDetails.hbm.xml</value>
+			</list>
+		</property>
+	</bean>
+ 
+	<bean id="enrollmentSessionFactory2"
+		class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+		<property name="dataSource" ref="enrollmentDataSource2" />
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">${hibernate.dialect}</prop>
+				<prop key="hibernate.show_sql">${hibernate.show_sql}</prop>
+				<prop key="current_session_context_class">org.hibernate.context.ManagedSessionContext</prop>
+				<!-- <prop key="cache.provider_class">org.hibernate.cache.EhCacheProvider</prop> -->
+				<prop key="hibernate.connection.useUnicode">true</prop>
+				<prop key="hibernate.connection.characterEncoding">UTF-8</prop>
+				<prop key="hibernate.connection.charSet">UTF-8</prop>
+				<prop key="hibernate.default_schema">${hibernate.defaultSchema.enrollment2}</prop>
+				<!-- <prop key="hibernate.cache.use_query_cache">true</prop> 
+				<prop key="hibernate.max_fetch_depth">4</prop> 
+				<prop key="hibernate.cache.use_second_level_cache">true</prop> 
+				<prop key="hibernate.cache.use_query_cache">true</prop> 
+				<prop key="hibernate.cache.region.factory_class">net.sf.ehcache.hibernate.EhCacheRegionFactory</prop>
+				<prop key="hibernate.cache.provider_configuration_file_resource_path">/ehcache.xml</prop> -->
+		 	</props>
+		</property>
+		<property name="mappingResources">
+			<list>
+				<value>enrollment.hbm.xml</value>
+				<value>enrollmentDetails.hbm.xml</value>
+			</list>
+		</property> 
+	</bean>
+	
+	<bean id="searchServiceInterface"
+		class="in.gov.uidai.srdh.portal.service.impl.SearchWebServiceImpl">
+		<property name="searchServiceImpl" ref="searchService"></property>
+	</bean>
+
+	<bean id="searchService" class="in.gov.uidai.srdh.portal.service.impl.SearchServiceImpl"
+		scope="prototype">
+		<property name="searchDAO" ref="searchDAO" />
+	</bean>
+	<bean id="searchDAO" class="in.gov.uidai.srdh.portal.dao.impl.SearchDAOImpl"
+		scope="prototype">
+		<property name="dbController" ref="dbController" />
+		<property name="commonSessionFactory" ref="commonSessionFactory" />
+	</bean>
+
+	<bean id="dbController" class="in.gov.uidai.srdh.portal.common.util.DBController">
+		<property name="enrollmentSessionFactory1" ref="enrollmentSessionFactory1" />
+		<property name="enrollmentSessionFactory2" ref="enrollmentSessionFactory2" />
+	</bean>
+	 
+	<bean id="environmentVariablesConfiguration"
+		class="org.jasypt.encryption.pbe.config.EnvironmentStringPBEConfig">
+		<property name="algorithm" value="PBEWithMD5AndDES" />
+		<property name="passwordEnvName" value="SRDH_KEY" />
+	</bean>
+	<bean id="configurationEncryptor" class="org.jasypt.encryption.pbe.StandardPBEStringEncryptor">
+		<property name="config" ref="environmentVariablesConfiguration" />
+	</bean> 
+</beans>

@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        ".//hibernate-mapping-3.0.dtd">
+<!-- Generated Feb 22, 2012 2:54:36 PM by Hibernate Tools 3.1.0.beta4 -->
+<hibernate-mapping>
+    <class name="in.gov.uidai.srdh.portal.vo.EnrollmentDetails" table="enrollment_details">
+        <id name="uid" type="string">
+            <column name="uniqueid" />
+            <generator class="assigned" />
+        </id>
+        
+        
+        <property name="photo">
+        	<column name="photo" />
+        </property>
+        
+ 
+    </class>
+</hibernate-mapping>
